@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AoE4 存档编辑器</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">AOE4</span>
+    <span class="title">LuaDataStore 存档编辑器</span>
+    <span class="ver" id="ver"></span>
+  </div>
+  <div class="badge" id="dirty-badge">未打开</div>
+</header>
+
+<section class="toolbar">
+  <label class="field">
+    <span>SteamID64</span>
+    <input id="account" type="text" placeholder="7656119…" spellcheck="false" autocomplete="off">
+  </label>
+  <button id="btn-detect" class="ghost" type="button">自动检测</button>
+  <span class="sep"></span>
+  <button id="btn-open" class="primary" type="button">打开存档</button>
+  <button id="btn-save" class="accent" type="button" disabled>保存并加密</button>
+  <button id="btn-undo" class="ghost" type="button" disabled>撤销</button>
+  <span class="sep"></span>
+  <button id="btn-export-plain" class="ghost" type="button" disabled>导出明文</button>
+  <button id="btn-export-json" class="ghost" type="button" disabled>导出 JSON</button>
+  <button id="btn-selftest" class="ghost" type="button">自检</button>
+  <span class="grow"></span>
+  <span class="fileinfo" id="fileinfo">未打开文件</span>
+</section>
+
+<section class="subbar">
+  <input id="search" type="search" placeholder="搜索字段名…" spellcheck="false" autocomplete="off">
+  <label class="chk"><input id="only-editable" type="checkbox"> 只看可改</label>
+  <button id="btn-expand" class="ghost tiny" type="button">展开全部</button>
+  <button id="btn-collapse" class="ghost tiny" type="button">折叠全部</button>
+  <span class="grow"></span>
+  <span class="summary" id="summary"></span>
+</section>
+
+<main class="tablewrap">
+  <div class="thead">
+    <div class="c-key">字段</div>
+    <div class="c-val">值</div>
+    <div class="c-type">类型</div>
+    <div class="c-doc">说明</div>
+  </div>
+  <div class="tbody" id="rows" tabindex="0"></div>
+  <div class="empty" id="empty">还没有打开存档 —— 点上方「打开存档」，或先点「自动检测」填入 SteamID64。</div>
+</main>
+
+<footer class="statusbar">
+  <span id="status">就绪</span>
+  <span class="grow"></span>
+  <span id="meta"></span>
+</footer>
+
+<div class="modal" id="modal-open" hidden>
+  <div class="dialog">
+    <h2>选择存档</h2>
+    <p class="hint">下面列出本机扫描到的 .rlc 存档；也可以直接填完整路径。</p>
+    <div class="cand-list" id="cand-list"></div>
+    <div class="manual">
+      <input id="manual-path" type="text" spellcheck="false" placeholder="C:\Users\…\datastore\rogue_mode.rlc">
+      <button id="btn-manual-open" class="primary" type="button">打开</button>
+    </div>
+    <div class="actions">
+      <button id="btn-cancel-open" class="ghost" type="button">取消</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-text" hidden>
+  <div class="dialog">
+    <h2 id="text-title">信息</h2>
+    <pre class="textbox" id="text-body"></pre>
+    <div class="actions">
+      <button id="btn-close-text" class="ghost" type="button">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
