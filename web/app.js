@@ -144,7 +144,7 @@
   function renderMeta() {
     const s = S.state || {};
     const bits = [];
-    if (s.header) bits.push("时间戳 " + s.header.timestamp + " · 格式 " + s.header.format);
+    if (s.header) bits.push("头部 " + s.header.head_u32 + " · 格式 v" + s.header.format);
     if (s.loaded) bits.push("明文 " + s.plain_size + " 字节");
     $("#meta").textContent = bits.join(" · ");
   }

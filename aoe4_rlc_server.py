@@ -101,7 +101,7 @@ class Session:
                 return st
             hdr = core.get_header(self.plain)
             if hdr:
-                st["header"] = {"timestamp": hdr[0], "format": hdr[1]}
+                st["header"] = {"head_u32": hdr[0], "format": hdr[1]}
             ents = core.parse_entries(self.plain)
             st["counts"] = {
                 "num": sum(1 for e in ents if e.kind == "num"),

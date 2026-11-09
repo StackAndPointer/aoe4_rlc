@@ -14,7 +14,7 @@ aoe4_rlc_core.py  --  后端核心（无界面、无网络、无日志）
            输入 = CityHash64(账号ID)[8 字节小端] + 固定尾部常量(23 字节)
   账号ID = SteamID64 十进制字符串（即 Users\\<SteamID64>\\ 目录名）
 
-  明文   = u32 时间戳 | u8 版本 | 分块流
+  明文   = u32 头部字段(含义未确认) | u8 版本 | 分块流
   分块   = tag(u32) + 负载
            tag 4 = 字符串  {u32 长度, 字节}
            tag 3 = 数值    {u8 子类型, i64}
@@ -382,7 +382,12 @@ def describe(e: Entry) -> str:
 
 
 def get_header(pt):
-    """返回 (u32 时间戳, u8 版本)；长度不足返回 None。"""
+    """返回 (u32 头部字段, u8 版本)；长度不足返回 None。
+
+    注意：首个 u32 的含义尚未确认。它随每次保存而变化，与保存时间无关，
+    也不是任何常见校验和（CRC32 / Adler32 / CityHash / 长度都对不上）。
+    真正的存档时间在明文里的 savetime 字段（毫秒级 Unix 时间戳）。
+    """
     if len(pt) < 5:
         return None
     return _u32(pt, 0), pt[4]

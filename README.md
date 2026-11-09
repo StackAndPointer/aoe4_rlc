@@ -128,9 +128,11 @@ written.
   tail, fed through OpenSSL's `EVP_BytesToKey` (SHA-1, 4 iterations) to produce a 32-byte key
   and a 16-byte IV.
 - The account ID is the decimal number in the `Users\<SteamID64>\` directory name.
-- The decrypted container is `u32 timestamp | u8 version | chunk stream`, where each chunk is
-  `tag(u32) + payload`: `tag 4` is a string `{u32 length, bytes}` and `tag 3` is a number
-  `{u8 subtype, i64}`.
+- The decrypted container starts with a 5-byte header — `u32 unknown | u8 version` —
+  followed by a chunk stream, where each chunk is `tag(u32) + payload`: `tag 4` is a string
+  `{u32 length, bytes}` and `tag 3` is a number `{u8 subtype, i64}`. The leading `u32` has
+  not been identified: it changes on every save and is not a timestamp. The real save time lives
+  in the `savetime` field as a millisecond Unix timestamp.
 
 Field parsing uses local pattern matching: it only recognises number/string records that
 immediately follow a field name, and does not attempt full table-structure inference. Saving is
