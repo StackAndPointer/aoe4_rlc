@@ -135,3 +135,7 @@ written.
 Field parsing uses local pattern matching: it only recognises number/string records that
 immediately follow a field name, and does not attempt full table-structure inference. Saving is
 therefore a **byte-exact in-place rewrite** — anything unrecognised is preserved untouched.
+
+## License
+
+[MIT](LICENSE) © 2026 StackAndPointer
